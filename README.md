@@ -48,27 +48,27 @@ project
 ## Steps to install packages for chat app 
 - create one folder
 - open terminal and enter below comands
->> npm init
+> npm init
 
->> npm i express
+> npm i express
 
->> npm i bcryptjs
+> npm i bcryptjs
 
->> npm i body-parser
+> npm i body-parser
 
->> npm i joi
+> npm i joi
 
->> npm i jsonwebtoken
+> npm i jsonwebtoken
 
->> npm i mysql2
+> npm i mysql2
 
->> npm i sequelize
+> npm i sequelize
 
->> npm i socket.io
+> npm i socket.io
 
->> npm i dotenv
+> npm i dotenv
 
->> npm i nodemon
+> npm i nodemon
 
 
 # create .env file and paste below content
@@ -87,4 +87,4 @@ REQUIRED_HEADERS =
 - press ctrl + ` to open terminal and run npm start comand 
 - if terminal show below output then start testing in postman
 
->> server start on localhost:8000
+> server start on localhost:8000
