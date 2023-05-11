@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "fccc4463-a54f-40a6-9639-15b238d9021e",
+		"name": "chat app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15936792",
+		"_collection_link": "https://planetary-zodiac-141233-1.postman.co/workspace/home~928bd04b-ca6a-40f9-8750-4f19ea5c570d/collection/15936792-fccc4463-a54f-40a6-9639-15b238d9021e?action=share&creator=15936792&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "User-Agent",
+								"value": "CHAT_APP_DIPAK",
+								"type": "text"
+							},
+							{
+								"key": "App-Secret",
+								"value": "CHAT_APP_DIPAK",
+								"type": "text"
+							},
+							{
+								"key": "App-Track-Version",
+								"value": "v1",
+								"type": "text"
+							},
+							{
+								"key": "App-Device-Type",
+								"value": "iOS",
+								"type": "text"
+							},
+							{
+								"key": "App-Store-Version",
+								"value": "1.1",
+								"type": "text"
+							},
+							{
+								"key": "App-Device-Model",
+								"value": "iPhone 8",
+								"type": "text"
+							},
+							{
+								"key": "App-Os-Version",
+								"value": "iOS 11",
+								"type": "text"
+							},
+							{
+								"key": "App-Store-Build-Number",
+								"value": "1.1",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "User-Agent",
+								"value": "CHAT_APP_DIPAK",
+								"type": "text"
+							},
+							{
+								"key": "App-Secret",
+								"value": "CHAT_APP_DIPAK",
+								"type": "text"
+							},
+							{
+								"key": "App-Track-Version",
+								"value": "v1",
+								"type": "text"
+							},
+							{
+								"key": "App-Device-Type",
+								"value": "iOS",
+								"type": "text"
+							},
+							{
+								"key": "App-Store-Version",
+								"value": "1.1",
+								"type": "text"
+							},
+							{
+								"key": "App-Device-Model",
+								"value": "iPhone 8",
+								"type": "text"
+							},
+							{
+								"key": "App-Os-Version",
+								"value": "iOS 11",
+								"type": "text"
+							},
+							{
+								"key": "App-Store-Build-Number",
+								"value": "1.1",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "check server",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "app-track-version",
+						"value": "v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/home",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"home"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "localhost:8000",
+			"type": "string"
+		}
+	]
+}
