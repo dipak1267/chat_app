@@ -17,6 +17,16 @@ project
     │
     └───server.js
     │
+    └───configs
+    │   │   config.js
+    │   │   db.js
+    │   │   ...
+    │
+    └───constant
+    │   │   response.js
+    │   │   validation_messages.js
+    │   │   ...
+    │
     └───middleware
     │   │   headerMiddleware.js
     │   │   ...
@@ -37,7 +47,7 @@ project
     │   │   ...
     │
     └───utils
-    │   │   db_connection.js
+    │   │   helper.js
     │   │   ...
     │
     └───validation
