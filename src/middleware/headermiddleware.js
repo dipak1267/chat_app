@@ -5,7 +5,7 @@ const headers = (req, res, next) => {
 
     for (let name of requiredHeaders) {
         let value = req.headers[name.toLowerCase()];
-        console.log(`${name}: ${value}`);
+        // console.log(`${name}: ${value}`);
         if(req.headers.hasOwnProperty(name.toLowerCase())){
             if((name == "App-Secret" && value != CONFIG.app_secret)){
                 res.send({ status: 0, msg: "Invalid App-Secret" });
