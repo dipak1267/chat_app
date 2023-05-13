@@ -16,7 +16,6 @@ app.get("/home", (req, res) => {
     res.status(200).send({ status: 1, msg: "welcome to home page chat app"});
 });
 
-
 app.use("/api", require("./routes/routes").allRoutes)
 
 app.listen(CONFIG.port, () => {

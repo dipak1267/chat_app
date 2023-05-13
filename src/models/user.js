@@ -34,6 +34,10 @@ const user =  (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
             allowNull: true,
         },
+        verify_password_code: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
         is_deleted: {
             type: DataTypes.BOOLEAN,
             defaultValue: 0,

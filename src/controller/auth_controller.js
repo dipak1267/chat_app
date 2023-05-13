@@ -117,7 +117,33 @@ async function forgotPassword(
     request,
     response,
 ) {
-    response.status(200).send({ status: 1, msg: "handleUserSingIn page"});
+    try{
+        const requestData = request.body;
+        require("../utils/general_function").sendEmailUsingGmail(requestData.user_email,"Forgot Password", "Here is code:- \n1234");
+
+        const finduser = await user.findOne({
+            where: {
+                useR_email: requestData.user_email
+            }
+        })
+        if (!finduser){
+            return response.status(200).send({ status: 0, msg: "User not exist with this email." });
+        }
+
+        await user.update({
+            verify_password_code: 1234
+
+        }, {
+            where: {
+                useR_email: requestData.user_email
+            }
+        })
+
+        response.status(200).send({ status: 1, msg: "Forgot password code sent to your email."});
+    }catch(err){
+        console.log(err);
+        return response.status(200).send({ status: 0, msg: err.toString()});
+    }
 }
 
 async function changePasswordWithVerificationCode(

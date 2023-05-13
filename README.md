@@ -80,6 +80,8 @@ project
 
 > npm i nodemon
 
+> npm i nodemailer
+
 
 # create .env file and paste below content
 ```
