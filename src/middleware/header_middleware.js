@@ -19,8 +19,25 @@ const headers = (req, res, next) => {
       next();
 }
 
+const checkAuthToken = async (req, res, next) => {
+    var token = req.headers["Auth-Token".toLowerCase()];
+    if(token){
+           const user =  await require("../utils/general_function").getUserFromAuthToken(token);
+           if(user){
+            req.body["user_detail"] = user;
+            next();
+           }else{
+            res.send({ status: 0, msg: `Auth-Token expired.` });    
+           }
+
+    }else{
+        res.send({ status: 0, msg: `Auth-Token not found` });
+    }
+}
+
 
 
 module.exports = {
-    headers
+    headers,
+    checkAuthToken
 }

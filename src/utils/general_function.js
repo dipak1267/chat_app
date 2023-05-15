@@ -1,6 +1,41 @@
 var nodemailer = require('nodemailer');
 
-const sendEmailUsingGmail = (email,subject,content) => {
+const db = require("../configs/db");
+const user = db.users;
+
+const getUserFromUserToken = async (userToken) => {
+    const userData =
+    await user.findOne({
+        where: {
+          user_token: userToken,
+        }
+    });
+
+    if (userData) {
+      return userData;
+    } else {
+        return null;
+    }
+
+}
+
+const getUserFromAuthToken = async (authToken) => {
+  const userData =
+  await user.findOne({
+      where: {
+        auth_token: authToken,
+      }
+  });
+
+  if (userData) {
+    return userData;
+  } else {
+      return null;
+  }
+}
+
+
+const sendEmailUsingGmail = async (email,subject,content,callback) => {
 
     var transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -17,15 +52,11 @@ const sendEmailUsingGmail = (email,subject,content) => {
       text: content
     };
     
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+    transporter.sendMail(mailOptions,callback);
 }
 
 module.exports = {
-    sendEmailUsingGmail
+    sendEmailUsingGmail,
+    getUserFromUserToken,
+    getUserFromAuthToken
 }

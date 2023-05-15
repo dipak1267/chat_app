@@ -2,6 +2,7 @@ const db = require("../configs/db");
 const user = db.users;
 const validation = require('../validation/auth_validation')
 const commonValidation = require('../validation/common_validation')
+const commonfunction = require("../utils/general_function")
 const CONFIG = require('../configs/config')
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -12,7 +13,7 @@ async function handleUserSingUp(
 ) {
     const requestData = request.body;
     try{
-        const password = await bcrypt.hash(requestData.user_password, 10)
+        const password = await bcrypt.hash(requestData.user_password, 10);
         if (requestData.user_email) {
             const email = await commonValidation.isUserExistWithEmail(requestData.user_email);
             if (email) {} else {
@@ -52,13 +53,15 @@ async function handleUserSingUp(
             return response.status(200).send({ status: 0, msg: "Fail to update auth token" });
         }
 
-        const userdata = await user.findOne({
-            where: {
-                user_id: users.user_id,
-            }
-        })
 
-        return response.status(200).send({ status: 1, msg: "Register successfull", data: userdata });
+        const userdata = await commonfunction.getUserFromUserToken(u_tokens);
+
+        if(userdata){
+            return response.status(200).send({ status: 1, msg: "Register successfull", data: userdata });
+        }else{
+            return response.status(200).send({ status: 0, msg: "Fail to register user.", data: userdata });
+        }
+        
     
     }catch(err){
         console.log(err);
@@ -96,13 +99,15 @@ async function handleUserSingIn(
             if(!isUpdated){
                 return response.status(200).send({ status: 0, msg: "Fail to update auth token" });
             }
+            
+            const userdata = await commonfunction.getUserFromUserToken(finduser.user_token);
+            
+            if(userdata){
+                return  response.status(200).send({ status: 1, msg: "Login successfull", data: userdata });
+            }else{
+                return response.status(200).send({ status: 0, msg: "Fail to login.", data: userdata });
+            }
 
-            const userdata = await user.findOne({
-                where: {
-                    user_id: finduser.user_id
-                }
-            })
-            response.status(200).send({ status: 1, msg: "Login successfull", data: userdata });
         } else {
             return response.status(200).send({ status: 0, msg: "User not exist" });
 
@@ -119,7 +124,6 @@ async function forgotPassword(
 ) {
     try{
         const requestData = request.body;
-        require("../utils/general_function").sendEmailUsingGmail(requestData.user_email,"Forgot Password", "Here is code:- \n1234");
 
         const finduser = await user.findOne({
             where: {
@@ -130,16 +134,32 @@ async function forgotPassword(
             return response.status(200).send({ status: 0, msg: "User not exist with this email." });
         }
 
-        await user.update({
-            verify_password_code: 1234
+        var code = Math.floor(1000 + Math.random() * 9000);;
+        
+        var updatedData = await user.update({
+            verify_password_code: code
 
         }, {
             where: {
                 useR_email: requestData.user_email
             }
-        })
+        });
 
-        response.status(200).send({ status: 1, msg: "Forgot password code sent to your email."});
+        if(updatedData != 1){
+            return response.status(200).send({ status: 0, msg: "Fail to generate verification code." });
+        }
+        
+        require("../utils/general_function").sendEmailUsingGmail(requestData.user_email,"Forgot Password", `Here is code:- \n${code}`,
+        function(error, info){
+            if (error) {
+              console.log('Email error: ' + error);
+              return response.status(200).send({ status: 0, msg: "We are unable to send email right now."});
+            } else {
+              console.log('Email sent: ' + info.response);
+              response.status(200).send({ status: 1, msg: "Forgot password code sent to your email.", code : code});
+            }
+          });
+        
     }catch(err){
         console.log(err);
         return response.status(200).send({ status: 0, msg: err.toString()});
@@ -150,8 +170,47 @@ async function changePasswordWithVerificationCode(
     request,
     response,
 ) {
-    response.status(200).send({ status: 1, msg: "handleUserSingIn page"});
+    try{
+        const requestData = request.body;
+
+        const finduser = await user.findOne({
+            where: {
+                useR_email: requestData.user_email
+            }
+        })
+        
+        if (!finduser){
+            return response.status(200).send({ status: 0, msg: "User not exist with this email." });
+        }
+
+        if(finduser.verify_password_code != requestData.verify_code){
+            return response.status(200).send({ status: 0, msg: "Verification code is not valid." });
+        }
+
+        const password = await bcrypt.hash(requestData.user_password, 10);
+
+       var updatedData = await user.update({
+            user_password: password,
+            updated_date: Date.now()
+
+        }, {
+            where: {
+                useR_email: requestData.user_email
+            }
+        });
+        
+        if(updatedData == 1){
+            return response.status(200).send({ status: 1, msg: "Password changed." });
+        }else{
+            return response.status(200).send({ status: 0, msg: "Fail to change Password." });
+        }
+
+    }catch(err){
+        console.log(err);
+        return response.status(200).send({ status: 0, msg: err.toString()});
+    }
 }
+
 
 const updateAuthToken = async(id) => {
     try{

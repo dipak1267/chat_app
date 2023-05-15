@@ -43,7 +43,12 @@ joi.object({
 
 
 
-
+const changePassword = joi.object({
+    oldPassword: joi.string().trim()
+    .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+    user_password: joi.string().trim()
+    .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required()
+});
 
 
 
@@ -53,4 +58,5 @@ module.exports = {
     login,
     forgotPassowrd,
     changePasswordWithVerificationCode,
+    changePassword
 }

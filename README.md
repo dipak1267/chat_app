@@ -28,7 +28,8 @@ project
     │   │   ...
     │
     └───middleware
-    │   │   headerMiddleware.js
+    │   │   header_middleware.js
+    │   │   validation_middleware.js
     │   │   ...
     │
     └───models
@@ -39,19 +40,23 @@ project
     │
     └───controller
     │   │   auth_controller.js
+    │   │   user_controller.js
     │   │   ...
     │
     └───routes
-    │   │   router.js
-    │   │   auth_router.js
+    │   │   routes.js
+    │   │   auth.routes.js
+    │   │   user.routes.js
     │   │   ...
     │
     └───utils
-    │   │   helper.js
+    │   │   general_function.js
     │   │   ...
     │
     └───validation
-        │   validation.js
+        │   auth_validation.js
+        │   user_validation.js
+        │   common_validation.js
         │   ...
 ```
 
@@ -81,6 +86,10 @@ project
 > npm i nodemon
 
 > npm i nodemailer
+
+> npm i multer
+
+> npm i uuidv4
 
 
 # create .env file and paste below content

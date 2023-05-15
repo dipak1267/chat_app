@@ -2,7 +2,7 @@ const express = require("express");
 const allRoutes = express.Router();
 
 
-const middleware = require("../middleware/headermiddleware");
+const middleware = require("../middleware/header_middleware.js");
 allRoutes.use(middleware.headers);
 
 
@@ -14,5 +14,11 @@ allRoutes.use(
     "/auth",
     require("./auth.routes").authenticationRouter
 );
+
+allRoutes.use(
+    "/user",
+    require("./user.routes").userRouter
+);
+
 
 module.exports = { allRoutes }
